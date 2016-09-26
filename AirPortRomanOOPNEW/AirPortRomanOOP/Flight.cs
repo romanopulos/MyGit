@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirPortRomanOOP
 {
-    class Flight :IAirpotr<Passenger>,IComparable<Flight>
+    class Flight :IAirport<Passenger>,IComparable<Flight>
     {
         private DateTime at;
         private struct editInf
@@ -64,7 +64,6 @@ namespace AirPortRomanOOP
             {
                 return city;
             }
-
         }
 
         private Airline airline;
@@ -153,7 +152,7 @@ namespace AirPortRomanOOP
             Console.WriteLine("Enter a sex of passenger:1 - a man, 2 - a woman{0} - ", ((pass != null) ? ((pass.Sex==Sex.Male)?1:2):1));
             ed.sex = (Sex)int.Parse(Console.ReadLine());
             Console.WriteLine("Enter a birthday of a passenger: {0}", ((pass != null) ? pass.Birthday : DateTime.MinValue));
-            ed.birthday = Additionalservice.TimeEnter();
+            ed.birthday = InputUtil.TimeEnter();
             Console.WriteLine("Enter a nationaality of a passenger: {0}", ((pass != null) ? pass.Nationality : String.Empty));
             ed.nationality = Console.ReadLine();
             Console.WriteLine("Enter a passport data of a passenger: {0}", ((pass != null) ? pass.Passport : String.Empty));
@@ -200,16 +199,13 @@ namespace AirPortRomanOOP
 
         public void DeleteItem(Passenger deletepassenger)
         {
-            
-
             for (int i = 0; i < this.customers.Length; i++)
             {
                 if (this.customers[i] == deletepassenger)
                 {
                     this.customers[i] = null;
                 }
-            }
-         
+            }         
         }
 
         public override string ToString()
@@ -246,7 +242,6 @@ namespace AirPortRomanOOP
                             }
                             break;
                         }
-
                     case 2:
                         {
                             subject = subject as String;                            
@@ -256,7 +251,6 @@ namespace AirPortRomanOOP
                             }
                             break;                           
                         }
-
                     case 3:
                         {                            
                             if (this.customers[i].Firstname.Trim() == subject.Trim())
@@ -265,7 +259,6 @@ namespace AirPortRomanOOP
                             }
                             break;                            
                         }
-
                     case 4:
                         {                           
                             if (this.customers[i].Passport.Trim() == subject.Trim())

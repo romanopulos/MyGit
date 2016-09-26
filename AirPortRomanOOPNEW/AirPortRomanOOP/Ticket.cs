@@ -46,7 +46,6 @@ namespace AirPortRomanOOP
             }
         }
 
-
         public Ticket(int classofTicket, int ticketCategory, decimal price)
         {
             this.classofTicket = (TicketClass)classofTicket;

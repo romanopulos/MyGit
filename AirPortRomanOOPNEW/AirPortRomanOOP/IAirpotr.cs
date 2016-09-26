@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirPortRomanOOP
 {
-    interface IAirpotr<T>
+    interface IAirport<T>
     {
         void AddItem();
         T EditItem(T item);

@@ -6,7 +6,40 @@ using System.Threading.Tasks;
 
 namespace AirPortRomanOOP
 {
-    abstract class Commercialorganisation
+    public enum Sex
+    {
+        Male,
+        Female
+    }
+    public enum TicketClass
+    {
+        Business,
+        Economy
+    }
+    public enum TicketCategory
+    {
+        CategoryA,
+        CategoryB,
+        CategoryC
+    }
+    public enum KindOfFlight
+    {
+        Arrival,
+        Departure
+    }
+    public enum FlightStatus
+    {
+        CheckIn,
+        GateClosed,
+        Arrived,
+        DepartedAt,
+        Unknown,
+        Canceled,
+        ExpectedAt,
+        Delayed
+    }
+
+    abstract class CommercialOrganisation
     {
         public string LicenseNumber;
         public bool IsLicenseValid;
@@ -14,7 +47,7 @@ namespace AirPortRomanOOP
         public abstract void GetLicense();
         public abstract void CancelLicense();
 
-        public Commercialorganisation(string LicenseNumber, bool IsLicenseValid, DateTime DateExpired)
+        public CommercialOrganisation(string LicenseNumber, bool IsLicenseValid, DateTime DateExpired)
         {
             this.LicenseNumber = LicenseNumber;
             this.IsLicenseValid = IsLicenseValid;
