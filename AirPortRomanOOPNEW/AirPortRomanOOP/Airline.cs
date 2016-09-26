@@ -10,8 +10,7 @@ namespace AirPortRomanOOP
     {
         public string AirlineName { get; set; }
         public List<Flight> ArrivalFlightlist { get; set; }
-        public List<Flight> DepartureFlightlist { get; set; }
-  
+        public List<Flight> DepartureFlightlist { get; set; }  
 
         delegate Airline FindAnAirline();
         public static Airline CheckAirline(Airline[] AirlineArray)
