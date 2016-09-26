@@ -11,7 +11,8 @@ namespace AirPortRomanOOP
         static Airline chosenLine;
         static Flight flighttosearch;
         public int MyProperty { get; set; }
-        public int Choice { get; private set; }       
+        public int Choice { get; private set; }  
+             
         private int GetMenu()
         {
             Console.Clear();
@@ -38,11 +39,153 @@ namespace AirPortRomanOOP
             return Choice;
         }
 
+        private Flight FlightSeek()
+        {
+            return chosenLine?.SearchFlight();
+        }
+
+        private void PrintAllFlights(Generator gn)
+        {
+            for (int i = 0; i < gn.AirlineArray.Length; i++)
+            {
+                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.ArrivalFlightlist);
+                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.DepartureFlightlist);
+            }
+            Console.ReadLine();
+        }
+
+        private void PrintAllFlightsOfCurrentLine()
+        {
+            chosenLine?.PrintAllFlights(chosenLine?.ArrivalFlightlist);
+            chosenLine?.PrintAllFlights(chosenLine?.DepartureFlightlist);
+            Console.ReadLine();
+        }
+
+        private void PrintFlighpassengers()
+        {
+            flighttosearch = chosenLine.SearchFlight();
+            for (int i = 0; i < flighttosearch?.Customers?.Length; i++)
+            {
+                Console.WriteLine(flighttosearch?.Customers[i]?.ToString());
+            }
+            Console.ReadLine();
+        }
+
+        private void PrintAllPassengers(Generator gn)
+        {
+            //Airline
+            for (int i = 0; i < gn.AirlineArray.Length; i++)
+            {
+                //Flights arrive
+                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
+                {
+                    foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
+                    {
+                        //Customers
+                        for (int j = 0; j < item.Customers.Length; j++)
+                        {
+                            Console.WriteLine(item.Customers[j]?.ToString());
+                        }
+                    }
+                }
+                //Flights departure
+                if (gn.AirlineArray[i]?.DepartureFlightlist != null)
+                {
+                    foreach (var item in gn.AirlineArray[i]?.DepartureFlightlist)
+                    {
+                        //Customers
+                        for (int j = 0; j < item.Customers.Length; j++)
+                        {
+                            Console.WriteLine(item.Customers[j]?.ToString());
+                        }
+                    }
+                }
+            }
+            Console.ReadLine();
+        }
+
+        private void MinimumPrice(Generator gn)
+        {
+            //MINIMUM Price                           
+            Console.WriteLine("ENTER A MINIMUM Price TO COMPARE TO");
+            int minimumPrice = int.Parse(Console.ReadLine());
+            for (int i = 0; i < gn.AirlineArray?.Length; i++)
+            {
+                if (gn.AirlineArray[i]?.ArrivalFlightlist == null)
+                    continue;
+                foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
+                {
+                    if (item is Flight)
+                    {
+                        foreach (var item1 in item.TicketList.FindAll(
+                                    (Ticket tc) =>
+                                    {
+                                        return tc.Price < minimumPrice;
+                                    }))
+                        {
+                            Console.WriteLine("The number of flight:{0}, the Price:{1}", item.Number, item1.Price);
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("Press any key");
+            Console.ReadLine();
+        }
+
+        private void PriceList(Generator gn)
+        {
+            //PriceLIST
+            Console.Clear();
+            Console.WriteLine("PriceLIST OF THE CURRENT LINE OR TOTAL Price LIST(1-2)");
+            int choicePricelist = int.Parse(Console.ReadLine());
+            switch (choicePricelist)
+            {
+                case 1:
+                    {
+                        chosenLine.PriceList();
+                        break;
+                    }
+                default:
+                    {
+                        for (int i = 0; i < gn.AirlineArray.Length; i++)
+                        {
+                            gn.AirlineArray[i].PriceList();
+                        }
+                        break;
+                    }
+            }
+            Console.WriteLine("Press any key");
+            Console.ReadLine();
+        }
+
+        private void Sorting(Generator gn)
+        {
+            for (int i = 0; i < gn.AirlineArray.Length; i++)
+            {
+                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
+                {
+                    foreach (Flight item in gn.AirlineArray[i]?.ArrivalFlightlist)
+                    {
+                        //InputUtil.
+                        item.Customers = Passenger.Sortbyage(item?.Customers);
+                        Console.WriteLine("Ok!!");
+                    }
+                }
+                if (gn.AirlineArray[i]?.DepartureFlightlist != null)
+                {
+                    foreach (Flight item in gn.AirlineArray[i]?.DepartureFlightlist)
+                    {
+                        item.Customers = Passenger.Sortbyage(item?.Customers);
+                    }
+                }
+            }
+        }
+
         public void ApplicationAll(Generator gn)
-        {            
-            //object infpassenger;
+        {             
             Loging loger = new Loging();
             loger.StartProgram();
+            chosenLine = Airline.CheckAirline(gn.AirlineArray);
             while (true)
             {
                 Choice = GetMenu();
@@ -70,192 +213,81 @@ namespace AirPortRomanOOP
                         }
                     case 5:
                         {
-                            flighttosearch = chosenLine.SearchFlight();
+                            flighttosearch = FlightSeek();
                             if (flighttosearch != null)
-                                flighttosearch = chosenLine.EditItem(flighttosearch);
+                                flighttosearch = chosenLine?.EditItem(flighttosearch);
                             break;
                         }
                     case 6:
                         {
-                            flighttosearch = chosenLine.SearchFlight();
+                            flighttosearch = FlightSeek();
                             if (flighttosearch != null)
-                                chosenLine.DeleteItem(flighttosearch);
+                                chosenLine?.DeleteItem(flighttosearch);
                             break;
                         }
                     case 7:
                         {
-                            for (int i = 0; i < gn.AirlineArray.Length; i++)
-                            {
-                                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.ArrivalFlightlist);
-                                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.DepartureFlightlist);
-                            }
-                            Console.ReadLine();
+                            PrintAllFlights(gn);
                             break;
                         }
                     case 8:
                         {
-                            chosenLine?.PrintAllFlights(chosenLine?.ArrivalFlightlist);
-                            chosenLine?.PrintAllFlights(chosenLine?.DepartureFlightlist);
-                            Console.ReadLine();
+                            PrintAllFlightsOfCurrentLine();
                             break;
                         }
                     case 9:
                         {
-                            flighttosearch = chosenLine.SearchFlight();
-                            for (int i = 0; i < flighttosearch?.Customers?.Length; i++)
-                            {
-                                Console.WriteLine(flighttosearch?.Customers[i]?.ToString());
-                            }
-                            Console.ReadLine();
+                            PrintFlighpassengers();
                             break;
                         }
                     case 10:
                         {
-                            //Airline
-                            for (int i = 0; i < gn.AirlineArray.Length; i++)
-                            {
-                                //Flights arrive
-                                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
-                                {
-                                    foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
-                                    {
-                                        //Customers
-                                        for (int j = 0; j < item.Customers.Length; j++)
-                                        {
-                                            Console.WriteLine(item.Customers[j]?.ToString());
-                                        }
-                                    }
-                                }
-                                //Flights departure
-                                if (gn.AirlineArray[i]?.DepartureFlightlist != null)
-                                {
-                                    foreach (var item in gn.AirlineArray[i]?.DepartureFlightlist)
-                                    {
-                                        //Customers
-                                        for (int j = 0; j < item.Customers.Length; j++)
-                                        {
-                                            Console.WriteLine(item.Customers[j]?.ToString());
-                                        }
-                                    }
-                                }
-                            }
-                            Console.ReadLine();
+                            PrintAllPassengers(gn);
                             break;
                         }
                     case 11:
-                        {
-                            /*
-                             Add a passenger ONLY to a current Airline 
-                             */
-                            flighttosearch = chosenLine.SearchFlight();
+                        {                            
+                            flighttosearch = FlightSeek();
                             flighttosearch?.AddItem();
                             break;
                         }
                     case 12:
                         {                                                      
                             dynamic infpassenger = Passenger.getAvalueOfstructure<int>(gn.AirlineArray);                            
-                            if (infpassenger.flight != null)
-                            {
-                                infpassenger.flight.EditItem(infpassenger.passenger);
-                            }
+                            if (infpassenger.flight != null)                            
+                                infpassenger.flight.EditItem(infpassenger.passenger);                            
                             break;
                         }
                     case 13:
                         {
                             dynamic infpassenger = Passenger.getAvalueOfstructure<int>(gn.AirlineArray);
-                            if (infpassenger.flight != null)
-                            {
-                                infpassenger.flight.DeleteItem(infpassenger.passenger);
-                            }
+                            if (infpassenger.flight != null)                            
+                                infpassenger.flight.DeleteItem(infpassenger.passenger);                            
                             break;
                         }
                     case 14:
                         {
                             Console.Clear();                            
                             var infpassenger = (Passenger)Passenger.getAvalueOfstructure<Passenger>(gn.AirlineArray);
-                            if (infpassenger != null)
-                            {                               
-                                Console.WriteLine("Found a passenger:{0}  {1}", infpassenger.Firstname, infpassenger.Lastname);
-                            }
+                            if (infpassenger != null)                                                           
+                                Console.WriteLine("Found a passenger:{0}  {1}", infpassenger.Firstname, infpassenger.Lastname);                            
                             Console.ReadLine();
                             break;
                         }
                     case 15:
                         {
-                            //MINIMUM Price                           
-                            Console.WriteLine("ENTER A MINIMUM Price TO COMPARE TO");
-                            int minimumPrice = int.Parse(Console.ReadLine());
-                            for (int i = 0; i < gn.AirlineArray?.Length; i++)
-                            {
-                                if (gn.AirlineArray[i]?.ArrivalFlightlist == null)
-                                    continue;
-                                foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
-                                {
-                                    if (item is Flight)
-                                    {
-                                        foreach (var item1 in item.TicketList.FindAll(
-                                                    (Ticket tc) =>
-                                                    {
-                                                        return tc.Price < minimumPrice;
-                                                    }))
-                                        {
-                                            Console.WriteLine("The number of flight:{0}, the Price:{1}", item.Number, item1.Price);
-                                        }
-                                    }
-                                }
-                            }
-                            Console.WriteLine("Press any key");
-                            Console.ReadLine();
+                            MinimumPrice(gn);
                             break;
                         }
                     case 16:
                         {
-                            //PriceLIST
-                            Console.Clear();
-                            Console.WriteLine("PriceLIST OF THE CURRENT LINE OR TOTAL Price LIST(1-2)");
-                            int choicePricelist = int.Parse(Console.ReadLine());
-                            switch (choicePricelist)
-                            {
-                                case 1:
-                                    {
-                                        chosenLine.PriceList();
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        for (int i = 0; i < gn.AirlineArray.Length; i++)
-                                        {
-                                            gn.AirlineArray[i].PriceList();
-                                        }
-                                        break;
-                                    }
-                            }
-                            Console.WriteLine("Press any key");
-                            Console.ReadLine();
+                            PriceList(gn);
                             break;
                         }
                     //Sort all passengers by date of birth
                     case 17:
                         {
-                            for (int i = 0; i < gn.AirlineArray.Length; i++)
-                            {
-                                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
-                                {
-                                    foreach (Flight item in gn.AirlineArray[i]?.ArrivalFlightlist)
-                                    {
-                                        //InputUtil.
-                                        item.Customers = Passenger.Sortbyage(item?.Customers);
-                                        Console.WriteLine("Ok!!");
-                                    }
-                                }
-                                if (gn.AirlineArray[i]?.DepartureFlightlist != null)
-                                {
-                                    foreach (Flight item in gn.AirlineArray[i]?.DepartureFlightlist)
-                                    {
-                                        item.Customers = Passenger.Sortbyage(item?.Customers);
-                                    }
-                                }
-                            }
+                            Sorting(gn);
                             break;
                         }
                     case 18:
