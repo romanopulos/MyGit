@@ -48,7 +48,7 @@ namespace AirPortRomanOOP
             flighttoadd.TicketList.Find((x => (x.TicketCategory == TicketCategory.CategoryC && x.ClassofTicket == TicketClass.Business))));
             flighttoadd.Customers[3] = new Passenger("Sirik", "Sergei", "jew", new DateTime(1975, 8, 18), "MP894512", 825433489, Sex.Male,
             flighttoadd.TicketList.Find((x => (x.TicketCategory == TicketCategory.CategoryC && x.ClassofTicket == TicketClass.Economy))));
-            AirlineArray[0].ArrivalList = new List<Flight>();
+            AirlineArray[0].ArrivalFlightlist = new List<Flight>();
             AirlineArray[0].DepartureFlightlist = new List<Flight>();
             AirlineArray[0].AddToArray(KindOfFlight.Arrival, flighttoadd);
             flighttoadd = new Flight(new DateTime(2016, 09, 07), 211, "London", "21", KindOfFlight.Departure,

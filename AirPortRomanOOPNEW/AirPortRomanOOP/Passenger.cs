@@ -17,42 +17,18 @@ namespace AirPortRomanOOP
             public Flight flight;
             public Passenger passenger;
         }
-        public string Firstname
-        {
-            get; set;
-        }
-        public string Lastname
-        {
-            get; set;
-        }       
-        public string Nationality
-        {
-            get; set;
-        }
-        public DateTime Birthday
-        {
-            get; set;
-        }
-        public string Passport
-        {
-            get; set;
-        }
-        public int Identicalcode
-        {
-            get; set;
-        }        
-        public Sex Sex
-        {
-            get; set;
-        }
-        public Ticket Tct
-        {
-            get; set;
-        }
+        //public int MyProperty { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }       
+        public string Nationality { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Passport { get; set; }
+        public int Identicalcode { get; set; }       
+        public Sex Sex { get; set; }
+        public Ticket Tct { get; set; }
 
         public Passenger()
         {
-
         }
 
         public static object getAvalueOfstructure<T>(Airline[] AirlineArray)
@@ -88,7 +64,7 @@ namespace AirPortRomanOOP
             @subject = Console.ReadLine();
             for (int i = 0; i < AirlineArray?.Length; i++)
             {
-                pf = SubSearch(AirlineArray[i]?.ArrivalList);
+                pf = SubSearch(AirlineArray[i]?.ArrivalFlightlist);
                 if (pf != null)
                 {
                     return pf;

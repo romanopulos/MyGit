@@ -164,7 +164,7 @@ namespace AirPortRomanOOP
             ed.ticket.ClassofTicket = (TicketClass)(int.Parse(Console.ReadLine()));
             Console.WriteLine("Enter a ticket category: {0}", (pass != null) ? pass.Tct.TicketCategory:TicketCategory.CategoryA);
             ed.ticket.TicketCategory = (TicketCategory)(int.Parse(Console.ReadLine()));
-            Console.WriteLine("Enter a price: {0}", (pass != null) ? pass.Tct.Price:0);
+            Console.WriteLine("Enter a Price: {0}", (pass != null) ? pass.Tct.Price:0);
             ed.ticket.Price = Convert.ToDecimal(Console.ReadLine());          
             return ed;
         }

@@ -10,8 +10,9 @@ namespace AirPortRomanOOP
     {
         static Airline chosenLine;
         static Flight flighttosearch;
-        public int Choice { get;private set; }       
-        private int getMenu()
+        public int MyProperty { get; set; }
+        public int Choice { get; private set; }       
+        private int GetMenu()
         {
             Console.Clear();
             Console.WriteLine("1.CHOOSE A CURRENT AIRLINE/ADD A NEW ONE");
@@ -28,8 +29,8 @@ namespace AirPortRomanOOP
             Console.WriteLine("12.EDIT A PASSENGER");
             Console.WriteLine("13.DELETE A PASSENGER");
             Console.WriteLine("14.SEARCH  OF A PASSENGER");
-            Console.WriteLine("15.SEARCH BY MINIMUM PRICE");
-            Console.WriteLine("16.PRICELIST");
+            Console.WriteLine("15.SEARCH BY MINIMUM Price");
+            Console.WriteLine("16.PriceLIST");
             Console.WriteLine("17.SORT BY DATE");
             Console.WriteLine("18.EXIT A PROJECT");
             int Choice = int.Parse(Console.ReadLine());
@@ -38,14 +39,13 @@ namespace AirPortRomanOOP
         }
 
         public void ApplicationAll(Generator gn)
-        {
-            Passenger.PassFlight? passengertosearch;
+        {            
             //object infpassenger;
             Loging loger = new Loging();
             loger.StartProgram();
             while (true)
             {
-                Choice = getMenu();
+                Choice = GetMenu();
                 switch (Choice)
                 {
                     case 1:
@@ -86,7 +86,7 @@ namespace AirPortRomanOOP
                         {
                             for (int i = 0; i < gn.AirlineArray.Length; i++)
                             {
-                                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.ArrivalList);
+                                gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.ArrivalFlightlist);
                                 gn.AirlineArray[i]?.PrintAllFlights(gn.AirlineArray[i]?.DepartureFlightlist);
                             }
                             Console.ReadLine();
@@ -94,7 +94,7 @@ namespace AirPortRomanOOP
                         }
                     case 8:
                         {
-                            chosenLine?.PrintAllFlights(chosenLine?.ArrivalList);
+                            chosenLine?.PrintAllFlights(chosenLine?.ArrivalFlightlist);
                             chosenLine?.PrintAllFlights(chosenLine?.DepartureFlightlist);
                             Console.ReadLine();
                             break;
@@ -115,9 +115,9 @@ namespace AirPortRomanOOP
                             for (int i = 0; i < gn.AirlineArray.Length; i++)
                             {
                                 //Flights arrive
-                                if (gn.AirlineArray[i]?.ArrivalList != null)
+                                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
                                 {
-                                    foreach (var item in gn.AirlineArray[i]?.ArrivalList)
+                                    foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
                                     {
                                         //Customers
                                         for (int j = 0; j < item.Customers.Length; j++)
@@ -182,24 +182,24 @@ namespace AirPortRomanOOP
                         }
                     case 15:
                         {
-                            //MINIMUM PRICE                           
-                            Console.WriteLine("ENTER A MINIMUM PRICE TO COMPARE TO");
-                            int minimumprice = int.Parse(Console.ReadLine());
+                            //MINIMUM Price                           
+                            Console.WriteLine("ENTER A MINIMUM Price TO COMPARE TO");
+                            int minimumPrice = int.Parse(Console.ReadLine());
                             for (int i = 0; i < gn.AirlineArray?.Length; i++)
                             {
-                                if (gn.AirlineArray[i]?.ArrivalList == null)
+                                if (gn.AirlineArray[i]?.ArrivalFlightlist == null)
                                     continue;
-                                foreach (var item in gn.AirlineArray[i]?.ArrivalList)
+                                foreach (var item in gn.AirlineArray[i]?.ArrivalFlightlist)
                                 {
                                     if (item is Flight)
                                     {
                                         foreach (var item1 in item.TicketList.FindAll(
                                                     (Ticket tc) =>
                                                     {
-                                                        return tc.Price < minimumprice;
+                                                        return tc.Price < minimumPrice;
                                                     }))
                                         {
-                                            Console.WriteLine("The number of flight:{0}, the price:{1}", item.Number, item1.Price);
+                                            Console.WriteLine("The number of flight:{0}, the Price:{1}", item.Number, item1.Price);
                                         }
                                     }
                                 }
@@ -210,11 +210,11 @@ namespace AirPortRomanOOP
                         }
                     case 16:
                         {
-                            //PRICELIST
+                            //PriceLIST
                             Console.Clear();
-                            Console.WriteLine("PRICELIST OF THE CURRENT LINE OR TOTAL PRICE LIST(1-2)");
-                            int choicepricelist = int.Parse(Console.ReadLine());
-                            switch (choicepricelist)
+                            Console.WriteLine("PriceLIST OF THE CURRENT LINE OR TOTAL Price LIST(1-2)");
+                            int choicePricelist = int.Parse(Console.ReadLine());
+                            switch (choicePricelist)
                             {
                                 case 1:
                                     {
@@ -239,9 +239,9 @@ namespace AirPortRomanOOP
                         {
                             for (int i = 0; i < gn.AirlineArray.Length; i++)
                             {
-                                if (gn.AirlineArray[i]?.ArrivalList != null)
+                                if (gn.AirlineArray[i]?.ArrivalFlightlist != null)
                                 {
-                                    foreach (Flight item in gn.AirlineArray[i]?.ArrivalList)
+                                    foreach (Flight item in gn.AirlineArray[i]?.ArrivalFlightlist)
                                     {
                                         //InputUtil.
                                         item.Customers = Passenger.Sortbyage(item?.Customers);

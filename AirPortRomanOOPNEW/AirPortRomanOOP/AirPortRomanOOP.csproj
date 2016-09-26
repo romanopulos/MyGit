@@ -48,7 +48,7 @@
     <Compile Include="Airline.cs" />
     <Compile Include="CommercialOrganisation.cs" />
     <Compile Include="Flight.cs" />
-    <Compile Include="IAirpotr.cs" />
+    <Compile Include="IAirport.cs" />
     <Compile Include="Loging.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Passenger.cs" />

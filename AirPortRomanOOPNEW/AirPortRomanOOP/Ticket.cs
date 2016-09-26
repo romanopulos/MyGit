@@ -7,56 +7,22 @@ using System.Threading.Tasks;
 namespace AirPortRomanOOP
 {
     class Ticket
-    {        
-        private TicketClass classofTicket;
-        public TicketClass ClassofTicket {
-            get
-            {
-                return classofTicket;
-            }
-            set
-            {
-                classofTicket = value;
-            }                
-        }
+    {  
+        public TicketClass ClassofTicket { get; set; }   
+        public TicketCategory TicketCategory { get; set; }     
+        public decimal Price { get; set; }
 
-        private TicketCategory ticketCategory;
-        public TicketCategory TicketCategory
+        public Ticket(int ClassofTicket, int TicketCategory, decimal Price)
         {
-            get
-            {
-                return ticketCategory;
-            }
-            set
-            {
-                ticketCategory = value;
-            }
-        }
-
-        private decimal price;
-        public decimal Price
-        {
-            get
-            {
-                return price;
-            }
-            set
-            {
-                price = value;
-            }
-        }
-
-        public Ticket(int classofTicket, int ticketCategory, decimal price)
-        {
-            this.classofTicket = (TicketClass)classofTicket;
-            this.ticketCategory = (TicketCategory)ticketCategory;
-            this.price = price;
+            this.ClassofTicket = (TicketClass)ClassofTicket;
+            this.TicketCategory = (TicketCategory)TicketCategory;
+            this.Price = Price;
         }
 
         public override string ToString()
         {
-            return string.Format("The class ticket: {0}, the category {1}, the price:{2:C}", this.classofTicket, 
-            this.ticketCategory, this.price);
+            return string.Format("The class ticket: {0}, the category {1}, the Price:{2:C}", this.ClassofTicket, 
+            this.TicketCategory, this.Price);
         }
     }
 }

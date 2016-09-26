@@ -8,32 +8,10 @@ namespace AirPortRomanOOP
 {
     class Airline: CommercialOrganisation, IAirport<Flight>, IComparable<Airline>
     {
-        public string AirlineName { get; set; }       
-        private List<Flight> arrivalFlightlist;        
-        public List<Flight> ArrivalList
-        {
-            get
-            {
-                return arrivalFlightlist;
-            }
-            set
-            {
-                arrivalFlightlist = value;
-            }
-        }
-
-        private List<Flight> departureFlightlist;
-        public List<Flight> DepartureFlightlist
-        {
-            get
-            {
-                return departureFlightlist;
-            }
-            set
-            {
-                departureFlightlist = value;
-            }
-        }
+        public string AirlineName { get; set; }
+        public List<Flight> ArrivalFlightlist { get; set; }
+        public List<Flight> DepartureFlightlist { get; set; }
+  
 
         delegate Airline FindAnAirline();
         public static Airline CheckAirline(Airline[] AirlineArray)
@@ -196,12 +174,12 @@ namespace AirPortRomanOOP
         {
             if(ourflightkind == KindOfFlight.Arrival)
             {
-                this.arrivalFlightlist?.Add(newflight);
+                this.ArrivalFlightlist?.Add(newflight);
 
             }
             else
             {
-                this.departureFlightlist?.Add(newflight);
+                this.DepartureFlightlist?.Add(newflight);
             }           
         }
 
@@ -209,13 +187,13 @@ namespace AirPortRomanOOP
         {
             Console.WriteLine("Enter a number of a flight");
             int flightnumber = int.Parse(Console.ReadLine());
-            foreach (var item in arrivalFlightlist)
+            foreach (var item in ArrivalFlightlist)
             {
                 if (item.Number == flightnumber)
                     return item;
 
             }
-            foreach (var item in departureFlightlist)
+            foreach (var item in DepartureFlightlist)
             {
                 if (item.Number == flightnumber)
                     return item;
@@ -235,28 +213,28 @@ namespace AirPortRomanOOP
 
         public void PriceList()
         {          
-            int maxlength = ((this.ArrivalList.Count > this.DepartureFlightlist.Count) ?
-                                        this.ArrivalList.Count : this.DepartureFlightlist.Count);
+            int maxlength = ((this.ArrivalFlightlist.Count > this.DepartureFlightlist.Count) ?
+                                        this.ArrivalFlightlist.Count : this.DepartureFlightlist.Count);
             int controlpointarrive = 0;
             int controlpointdeparture = 0;
-            if (this.ArrivalList.Count == maxlength)
+            if (this.ArrivalFlightlist.Count == maxlength)
             {
                 controlpointarrive = maxlength;
                 controlpointdeparture = this.DepartureFlightlist.Count;
             }
             else
             {
-                controlpointarrive = this.ArrivalList.Count;
+                controlpointarrive = this.ArrivalFlightlist.Count;
                 controlpointdeparture = maxlength;
             }
             for (int i = 0; i < maxlength; i++)
             {
-                if ((i < controlpointarrive) && (this.ArrivalList.ElementAt(i) != null))
+                if ((i < controlpointarrive) && (this.ArrivalFlightlist.ElementAt(i) != null))
                 {
-                    foreach (var item in this.ArrivalList.ElementAt(i)?.TicketList)
+                    foreach (var item in this.ArrivalFlightlist.ElementAt(i)?.TicketList)
                     {
-                        Console.WriteLine("Airline {0}, fligt № {1}, class {2}, category {3}, price {4}",
-                        this.AirlineName, this.ArrivalList.ElementAt(i).Number,
+                        Console.WriteLine("Airline {0}, fligt № {1}, class {2}, category {3}, Price {4}",
+                        this.AirlineName, this.ArrivalFlightlist.ElementAt(i).Number,
                         item.ClassofTicket, item.TicketCategory, item.Price);
                     }
                 }
@@ -264,7 +242,7 @@ namespace AirPortRomanOOP
                 {
                     foreach (var item in this.DepartureFlightlist.ElementAt(i)?.TicketList)
                     {
-                        Console.WriteLine("Airline {0}, fligt № {1}, class {2}, category {3}, price {4}",
+                        Console.WriteLine("Airline {0}, fligt № {1}, class {2}, category {3}, Price {4}",
                         this.AirlineName, this.DepartureFlightlist.ElementAt(i).Number,
                         item.ClassofTicket, item.TicketCategory, item.Price);
                     }
